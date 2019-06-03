@@ -193,6 +193,17 @@ def parse_command_line_args():
             help='Sample JSON file to stream the data from.')
     return parser.parse_args()
 
+def create_random_date():
+
+    data={
+        "deviceID":"dev1",
+        "time": datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S"),
+        "flow": str(random.uniform(4,12)),
+        "battery":"98%",
+        "pressure": str(random.uniform(12,16)),
+        "temperature": str(random.uniform(16,25)),
+    }
+    return data
 
 # [START iot_mqtt_run]
 def main():
@@ -214,7 +225,7 @@ def main():
         args.mqtt_bridge_hostname, args.mqtt_bridge_port)
 
 
-
+    i =1
     while True:
         # print(type(line))
         # data = json.loads(line) 
@@ -229,7 +240,7 @@ def main():
         payload = json.dumps(data)    # JSON object to string conversion
         print('Publishing message #{}: \'{}\''.format(i, payload))
         # client.publish(mqtt_topic, payload, qos=1)
-        # i += 1
+        i += 1
 
         # time.sleep(0.1)
         time.sleep(random.uniform(0.2,3))
