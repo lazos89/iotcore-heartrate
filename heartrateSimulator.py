@@ -196,6 +196,7 @@ def parse_command_line_args():
 
 # [START iot_mqtt_run]
 def main():
+         
     args = parse_command_line_args()
     ip = get_ip_address()
     hostname = socket.gethostname()
@@ -212,20 +213,41 @@ def main():
         args.private_key_file, args.algorithm, args.ca_certs,
         args.mqtt_bridge_hostname, args.mqtt_bridge_port)
 
-    #data_file = "./data/SampleData.json"
-    data_file = args.json_data_file
-    fr = open(data_file, 'r')
-    i = 1 
-    for line in fr:
-        data = json.loads(line)   
+
+
+    while True:
+        # print(type(line))
+        # data = json.loads(line) 
+        #   
+        print(type(datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")))
+        data = create_random_date()
+        # print(type(data))
+
         # Publish "payload" to the MQTT topic. qos=1 means at least once
         # delivery. Cloud IoT Core also supports qos=0 for at most once
         # delivery.
         payload = json.dumps(data)    # JSON object to string conversion
         print('Publishing message #{}: \'{}\''.format(i, payload))
-        client.publish(mqtt_topic, payload, qos=1)
-        i += 1
-        #time.sleep(0.1)
+        # client.publish(mqtt_topic, payload, qos=1)
+        # i += 1
+
+        # time.sleep(0.1)
+        time.sleep(random.uniform(0.2,3))
+    # time.sleep((random.randint(0.2, 2)))
+#     #data_file = "./data/SampleData.json"
+#     data_file = args.json_data_file
+#     fr = open(data_file, 'r')
+#     i = 1 
+#     for line in fr:
+#         data = json.loads(line)   
+#         # Publish "payload" to the MQTT topic. qos=1 means at least once
+#         # delivery. Cloud IoT Core also supports qos=0 for at most once
+#         # delivery.
+#         payload = json.dumps(data)    # JSON object to string conversion
+#         print('Publishing message #{}: \'{}\''.format(i, payload))
+#         client.publish(mqtt_topic, payload, qos=1)
+#         i += 1
+#         #time.sleep(0.1)
 
     # End the network loop and finish.
     client.loop_stop()
